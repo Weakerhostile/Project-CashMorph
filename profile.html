@@ -1,0 +1,57 @@
+
+<!-- BEGINNER GUIDE: Profile page markup.
+     Displays editable profile fields for the authenticated user. -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile - CashMorph</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dashboard-page" data-protected="true">
+  <header class="admin-topbar">
+    <button id="profileBackBtn" class="back-btn neutral" aria-label="Go back">←</button>
+    <div class="admin-title">
+      <span class="admin-title-icon">👤</span>
+      <h1>My Profile</h1>
+    </div>
+  </header>
+
+  <main class="profile-wrap">
+    <section class="profile-card">
+      <h2>Profile Details</h2>
+      <p id="profileEmail">Loading...</p>
+
+      <form id="profileForm" class="auth-form" novalidate>
+        <label for="profileName">Display Name</label>
+        <input id="profileName" name="name" type="text" required />
+
+        <label for="profileRoom">Room Number</label>
+        <input id="profileRoom" name="roomNumber" type="text" required />
+
+        <label for="profileBlock">Hostel Block</label>
+        <select id="profileBlock" name="block" required>
+          <option value="">Select block</option>
+          <option value="A">Block A</option>
+          <option value="B">Block B</option>
+          <option value="C">Block C</option>
+          <option value="D">Block D</option>
+        </select>
+
+        <label for="profilePhone">Phone Number</label>
+        <input id="profilePhone" name="phone" type="tel" required />
+
+        <button type="submit" class="btn btn-primary btn-full">💾 Save Changes</button>
+      </form>
+
+      <p id="profileMessage" class="form-message"></p>
+    </section>
+  </main>
+
+  <script src="auth.js"></script>
+  <script src="profile.js"></script>
+</body>
+</html>

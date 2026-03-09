@@ -1,0 +1,185 @@
+
+<!-- BEGINNER GUIDE: Main dashboard/exchange board page markup.
+     Contains exchange lists, filters, modals, and notification UI containers used by exchange.js. -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - CashMorph</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dashboard-page" data-protected="true">
+  <header class="topbar">
+    <a href="index.html" class="brand" aria-label="CashMorph home">
+      <span class="brand-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8 4v16m0 0-3-3m3 3 3-3M16 20V4m0 0-3 3m3-3 3 3"></path>
+        </svg>
+      </span>
+      <span class="brand-text"><span class="cash">Cash</span>Morph</span>
+    </a>
+    <div class="topbar-actions">
+      <a id="navAdminLink" class="admin-link hidden" href="admin">
+        <span class="admin-icon">🛡</span>
+        Admin
+      </a>
+      <button id="openNewExchangeBtn" class="btn btn-primary">
+        <span class="btn-icon">+</span>
+        New Exchange
+      </button>
+      <button id="notificationBell" class="icon-action" aria-label="Notifications">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 8a6 6 0 1 1 12 0c0 7 3 7 3 9H3c0-2 3-2 3-9"></path>
+          <path d="M10 20a2 2 0 0 0 4 0"></path>
+        </svg>
+        <span id="notificationCount" data-notification-count class="hidden">0</span>
+      </button>
+      <div id="notificationPanel" class="notification-panel hidden" aria-label="Notifications" aria-live="polite">
+        <div class="notification-panel-head">
+          <p>Notifications</p>
+          <button id="markNotificationsReadBtn" type="button" class="notif-mark-btn">Mark all read</button>
+        </div>
+        <div id="notificationList" class="notification-list">
+          <p class="notification-empty">No notifications yet</p>
+        </div>
+      </div>
+      <button id="navProfileBtn" class="icon-action" aria-label="My profile">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M19 21a7 7 0 1 0-14 0"></path>
+          <circle cx="12" cy="8" r="4"></circle>
+        </svg>
+      </button>
+      <button id="logoutBtn" class="icon-action" data-logout="true" aria-label="Logout">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M14 8l4 4-4 4M18 12H9M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="dashboard-wrap">
+    <section class="board-header">
+      <div class="board-title-row">
+        <span class="brand-icon board-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 4v16m0 0-3-3m3 3 3-3M16 20V4m0 0-3 3m3-3 3 3"></path>
+          </svg>
+        </span>
+        <div>
+          <h1>Exchange Board</h1>
+          <p id="openCountText">0 open requests nearby</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="board-controls">
+      <div class="search-input-wrap">
+        <span class="search-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="M20 20l-3.6-3.6"></path>
+          </svg>
+        </span>
+        <input id="searchInput" type="text" placeholder="Search by name or room..." />
+      </div>
+      <div class="filter-row">
+        <label class="filter-label">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 6h16M7 12h10M10 18h4"></path>
+          </svg>
+          Filters
+        </label>
+        <select id="typeFilter">
+          <option value="all">All Types</option>
+          <option value="cash-to-digital">Cash → Digital</option>
+          <option value="digital-to-cash">Digital → Cash</option>
+        </select>
+        <select id="amountFilter">
+          <option value="all">Any Amount</option>
+          <option value="0-5000">₹0 - ₹5,000</option>
+          <option value="5001-10000">₹5,001 - ₹10,000</option>
+          <option value="10001+">₹10,001+</option>
+        </select>
+        <select id="blockFilter">
+          <option value="all">All Blocks</option>
+          <option value="A">Block A</option>
+          <option value="B">Block B</option>
+          <option value="C">Block C</option>
+          <option value="D">Block D</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="exchange-sections">
+      <div class="status-section">
+        <h2>OPEN REQUESTS</h2>
+        <div id="openList" class="exchange-grid"></div>
+      </div>
+
+      <div class="status-section">
+        <h2 class="in-progress-heading">IN PROGRESS</h2>
+        <div id="inProgressList" class="exchange-grid"></div>
+      </div>
+
+      <div class="status-section">
+        <h2>COMPLETED</h2>
+        <div id="completedList" class="exchange-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>CashMorph <span id="yearValue"></span> - Room-to-room cash exchange</p>
+  </footer>
+
+  <div id="newExchangeModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="newExchangeTitle">
+    <div class="modal-card">
+      <button id="closeModalBtn" class="modal-close" aria-label="Close">✕</button>
+      <div class="modal-title-row">
+        <span class="brand-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 4v16m0 0-3-3m3 3 3-3M16 20V4m0 0-3 3m3-3 3 3"></path>
+          </svg>
+        </span>
+        <h3 id="newExchangeTitle">New Exchange</h3>
+      </div>
+      <form id="newExchangeForm" class="auth-form" novalidate>
+        <label for="exchangeName">Your Name</label>
+        <input id="exchangeName" name="name" type="text" placeholder="e.g. John" required />
+
+        <div class="split-two">
+          <div>
+            <label for="exchangeRoom">Room Number</label>
+            <input id="exchangeRoom" name="roomNumber" type="text" placeholder="e.g. B204" required />
+          </div>
+          <div>
+            <label for="exchangePhone">Phone Number</label>
+            <input id="exchangePhone" name="phone" type="tel" placeholder="08012345678" required />
+          </div>
+        </div>
+
+        <label for="exchangeType">Exchange Type</label>
+        <select id="exchangeType" name="type" required>
+          <option value="">Select type</option>
+          <option value="cash-to-digital">Cash → Digital</option>
+          <option value="digital-to-cash">Digital → Cash</option>
+        </select>
+
+        <label for="exchangeAmount">Amount (₹)</label>
+          <input id="exchangeAmount" name="amount" type="number" min="1" max="1000" step="1" placeholder="1000" required />
+
+        <button type="submit" class="btn btn-primary btn-full">Post Exchange Request</button>
+      </form>
+
+      <p id="exchangeFormMessage" class="form-message"></p>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script src="main.js"></script>
+  <script src="exchange.js"></script>
+</body>
+</html>

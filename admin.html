@@ -1,0 +1,139 @@
+
+<!-- BEGINNER GUIDE: Admin dashboard page markup.
+     Contains stats cards, exchange/user management tables, and admin controls. -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - CashMorph</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dashboard-page" data-protected="true" data-role-required="admin">
+  <header class="admin-topbar">
+    <button id="adminBackBtn" class="back-btn" aria-label="Go back">←</button>
+    <div class="admin-title">
+      <span class="admin-title-icon">🛡</span>
+      <h1>Admin Dashboard</h1>
+    </div>
+  </header>
+
+  <main class="admin-wrap">
+    <section class="admin-stats-grid">
+      <article class="admin-stat-card">
+        <div class="admin-stat-icon users">👥</div>
+        <div>
+          <h2 id="summaryTotalUsers">0</h2>
+          <p>Total Users</p>
+        </div>
+      </article>
+      <article class="admin-stat-card">
+        <div class="admin-stat-icon moderators">⇵</div>
+        <div>
+          <h2 id="summaryTotalExchanges">0</h2>
+          <p>Total Exchanges</p>
+        </div>
+      </article>
+      <article class="admin-stat-card">
+        <div class="admin-stat-icon admins">◷</div>
+        <div>
+          <h2 id="summaryOpenExchanges">0</h2>
+          <p>Open Exchanges</p>
+        </div>
+      </article>
+      <article class="admin-stat-card">
+        <div class="admin-stat-icon users">◉</div>
+        <div>
+          <h2 id="summaryCompletedExchanges">0</h2>
+          <p>Completed Exchanges</p>
+        </div>
+      </article>
+      <article class="admin-stat-card">
+        <div class="admin-stat-icon admins">✕</div>
+        <div>
+          <h2 id="summaryRejectedExchanges">0</h2>
+          <p>Rejected Exchanges</p>
+        </div>
+      </article>
+      <article class="admin-stat-card admin-chart-card">
+        <div class="admin-chart-head">
+          <h3>Exchange Type Distribution</h3>
+        </div>
+        <div class="admin-chart-layout">
+          <section class="admin-calendar-panel" aria-label="Real-time calendar">
+            <p id="adminCalendarDayName" class="admin-calendar-day">-</p>
+            <h4 id="adminCalendarDate" class="admin-calendar-date">-</h4>
+            <p id="adminCalendarTime" class="admin-calendar-time">-</p>
+            <div class="admin-calendar-month-row">
+              <span id="adminCalendarMonthLabel">-</span>
+            </div>
+            <div class="admin-calendar-weekdays" aria-hidden="true">
+              <span>Su</span>
+              <span>Mo</span>
+              <span>Tu</span>
+              <span>We</span>
+              <span>Th</span>
+              <span>Fr</span>
+              <span>Sa</span>
+            </div>
+            <div id="adminCalendarGrid" class="admin-calendar-grid"></div>
+          </section>
+          <section class="admin-pie-panel">
+            <div class="admin-chart-canvas-wrap">
+              <canvas id="exchangeTypePieChart" aria-label="Exchange Type Distribution" role="img"></canvas>
+            </div>
+          </section>
+        </div>
+      </article>
+    </section>
+
+    <section class="admin-tabs">
+      <button id="tabExchanges" class="admin-tab active">⇵ Exchanges</button>
+      <button id="tabUsers" class="admin-tab">👥 Users</button>
+    </section>
+
+    <section id="exchangesPanel" class="admin-panel">
+      <h2 class="admin-panel-title">⇵ Exchange Requests</h2>
+      <div class="status-chips">
+        <button class="status-chip active" data-exchange-filter="all">All</button>
+        <button class="status-chip" data-exchange-filter="pending">Pending</button>
+        <button class="status-chip" data-exchange-filter="open">Open</button>
+        <button class="status-chip" data-exchange-filter="in-progress">In-Progress</button>
+        <button class="status-chip" data-exchange-filter="verified">Verified</button>
+        <button class="status-chip" data-exchange-filter="completed">Completed</button>
+        <button class="status-chip" data-exchange-filter="expired">Expired</button>
+        <button class="status-chip" data-exchange-filter="rejected">Rejected</button>
+      </div>
+      <div id="adminExchangeList" class="admin-exchange-list"></div>
+      <p id="adminExchangeEmpty" class="admin-empty">No exchanges found</p>
+    </section>
+
+    <section id="usersPanel" class="admin-panel hidden">
+      <h2 class="admin-panel-title">👥 Registered Users</h2>
+      <div class="users-table-wrap">
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Room</th>
+              <th>Block</th>
+              <th>Phone</th>
+              <th>Role</th>
+              <th>Joined</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminUsersTableBody"></tbody>
+        </table>
+      </div>
+      <p id="adminUsersEmpty" class="admin-empty">No users found</p>
+    </section>
+  </main>
+
+  <script src="auth.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
